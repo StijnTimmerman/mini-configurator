@@ -18,7 +18,7 @@ the same core.
 |--------|------|
 | `core/` | `configurator-core.js` — the Three.js scene + `createConfigurator()` API (`setColor`, `setFinish`, `reset`, `getState`, `onChange`, `dispose`). No DOM, no framework. |
 | `vanilla/` | Plain HTML/CSS/JS version — no build step, Three.js via CDN import map. This is the live demo. |
-| `react/`, `vue/`, `angular/` | The same configurator as a component in each framework, wrapping the shared core. *(being added)* |
+| `react/`, `vue/`, `angular/` | The same configurator as a component in each framework, wrapping the shared core. |
 
 ## Run the vanilla version
 
@@ -29,6 +29,25 @@ browser), so use any static server from the repo root:
 python3 -m http.server 8000
 # open http://localhost:8000/  (redirects to /vanilla/)
 ```
+
+## Framework versions
+
+Each framework version is a small app that wraps the shared core in one component
+(`useEffect` / `onMounted` / `ngAfterViewInit` around `createConfigurator`) and
+builds its control panel from `PALETTES`. The 3D logic is never duplicated — they
+all import the `configurator-core` package (`core/`, linked via `file:../core`).
+
+```bash
+cd react   # or: vue / angular
+npm install
+npm run dev      # dev server
+npm run build    # production build -> dist/
+```
+
+The reusable component lives in:
+- React — `react/src/ProductConfigurator.jsx`
+- Vue — `vue/src/ProductConfigurator.vue`
+- Angular — `angular/src/app/app.component.ts`
 
 ## Customize
 

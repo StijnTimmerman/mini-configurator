@@ -1,0 +1,12 @@
+{
+  "name": "configurator-core",
+  "version": "0.1.0",
+  "description": "Framework-agnostic Three.js core for the mini product configurator.",
+  "type": "module",
+  "main": "configurator-core.js",
+  "types": "configurator-core.d.ts",
+  "exports": "./configurator-core.js",
+  "dependencies": {
+    "three": "^0.170.0"
+  }
+}
