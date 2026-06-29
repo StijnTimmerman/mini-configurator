@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" rx="8" fill="#1b1b22"/>
+  <!-- tiny chair glyph -->
+  <g fill="none" stroke="#5b6cff" stroke-width="2.4" stroke-linecap="round">
+    <path d="M11 9 v14"/>
+    <path d="M11 16 h10"/>
+    <path d="M21 9 v14"/>
+    <path d="M11 23 v2"/>
+    <path d="M21 23 v2"/>
+  </g>
+</svg>
