@@ -291,7 +291,7 @@
           <a class="btn big" href="#" data-buy="team">Buy Team — €149</a>
         </div>
       </div>
-      <p class="pricing-note">VAT is added at checkout where applicable. Secure checkout, instant download. Read the <a href="eula.html">license</a>. Need more seats or OEM terms? Ask.</p>
+      <p class="pricing-note">Sold by Steil Digital (NL). VAT is added at checkout where applicable; EU businesses with a VAT ID pay reverse charged. Secure payment via Mollie (iDEAL, cards), instant download and invoice. Read the <a href="eula.html">license</a> and <a href="https://store.steildigital.nl/terms">sales terms</a>.</p>
     </div>
   </section>
 
@@ -319,7 +319,7 @@
   <script type="module" src="./mini-configurator.js"></script>
   <script>
     // Checkout links. Leave empty until the store is live: buttons then open the early-access form.
-    const CHECKOUT = { solo: "", team: "" };
+    const CHECKOUT = { solo: "https://store.steildigital.nl/checkout/solo", team: "https://store.steildigital.nl/checkout/team" };
     const EARLY = "https://github.com/StijnTimmerman/mini-configurator/issues/new?title=Mini%20Configurator%20Pro%20early%20access&body=Hi%2C%20I%27d%20like%20early%20access%20to%20Mini%20Configurator%20Pro.%0APlan%3A%20Solo%20%2F%20Team%0AUse%20case%3A%20";
     document.querySelectorAll("[data-buy]").forEach((a) => {
       const url = CHECKOUT[a.dataset.buy];
