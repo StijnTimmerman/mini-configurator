@@ -12,6 +12,12 @@ the same core.
 
 ![Mini 3D product configurator](docs/screenshot.png)
 
+> **Need your own model, textures, prices and quote requests?**
+> [Mini Configurator **Pro**](https://stijntimmerman.github.io/mini-configurator/pro/) loads any GLB,
+> adds textures, optional parts, live pricing, share links, a quote form with screenshot, React/Vue
+> wrappers, and a no-code **Studio** that exports `product.json`. One payment, unlimited projects.
+> [Try the live demo →](https://stijntimmerman.github.io/mini-configurator/pro/#demo)
+
 ## Repository layout
 
 | Folder | What |
@@ -76,4 +82,4 @@ to static files too.
 
 ---
 
-Built by [Steil Digital](https://steildigital.nl).
+Built by [Stijn Timmerman](https://stimmerman.nl). Want more? See [Mini Configurator Pro](https://stijntimmerman.github.io/mini-configurator/pro/).

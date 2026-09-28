@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mini Configurator Pro — self-hosted 3D product configurator</title>
+  <meta name="description" content="Load your own GLB, click parts and options together in the Studio, embed one tag. Textures, prices, share links and quote requests with a screenshot. No SaaS, no license server." />
+  <link rel="canonical" href="https://stijntimmerman.github.io/mini-configurator/pro/" />
+  <meta property="og:title" content="Mini Configurator Pro — self-hosted 3D product configurator" />
+  <meta property="og:description" content="Your product in 3D, configurable, in an afternoon. Studio, textures, prices, quote requests. One tag to embed." />
+  <meta property="og:image" content="https://stijntimmerman.github.io/mini-configurator/pro/img/vanilla-configured.png" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="../vanilla/favicon.svg" type="image/svg+xml" />
+  <style>
+    :root {
+      --accent: #5b6cff; --accent-deep: #4353e6; --ink: #15151c; --muted: #66667a; --line: #e6e6ec;
+      --panel: #fff; --soft: #f5f5f8; --bg: #fafafc; --ok: #1f8a4c; --radius: 14px;
+      --font: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; font-family: var(--font); color: var(--ink); background: var(--bg); line-height: 1.55; font-size: 16px; -webkit-font-smoothing: antialiased; }
+    a { color: var(--accent-deep); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    h1, h2, h3, p { margin: 0; }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 20px; border-radius: 10px; font-weight: 600; border: 1px solid var(--line); background: var(--panel); color: var(--ink); cursor: pointer; font-size: 15px; transition: transform .12s, box-shadow .12s, background .12s; }
+    .btn:hover { text-decoration: none; background: var(--soft); }
+    .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; box-shadow: 0 6px 20px rgba(91,108,255,.28); }
+    .btn.primary:hover { background: var(--accent-deep); transform: translateY(-1px); }
+    .btn.big { padding: 15px 26px; font-size: 16px; }
+    .pill { display: inline-block; font-size: 12.5px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--accent-deep); background: #eceefe; padding: 5px 11px; border-radius: 999px; }
+
+    nav { position: sticky; top: 0; z-index: 5; background: rgba(250,250,252,.85); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+    nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: -.01em; color: var(--ink); }
+    .brand svg { width: 26px; height: 26px; }
+    .links { display: flex; gap: 22px; align-items: center; font-size: 14.5px; }
+    .links a { color: var(--muted); }
+    .links a:hover { color: var(--ink); text-decoration: none; }
+    @media (max-width: 720px) { .links a:not(.btn) { display: none; } }
+
+    .hero { padding: 72px 0 36px; text-align: center; }
+    .hero h1 { font-size: clamp(34px, 5.4vw, 58px); line-height: 1.06; letter-spacing: -.03em; font-weight: 800; max-width: 860px; margin: 18px auto 0; }
+    .hero h1 em { font-style: normal; color: var(--accent-deep); }
+    .hero p.lead { font-size: clamp(17px, 2vw, 20px); color: var(--muted); max-width: 720px; margin: 20px auto 0; }
+    .hero .cta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 30px; }
+    .hero .fine { margin-top: 14px; font-size: 13.5px; color: var(--muted); }
+
+    .demo-frame { margin: 36px auto 0; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; background: #fff; box-shadow: 0 30px 80px rgba(20,20,40,.12); }
+    .demo-bar { display: flex; align-items: center; gap: 8px; padding: 10px 14px; border-bottom: 1px solid var(--line); font-size: 13px; color: var(--muted); background: var(--soft); }
+    .demo-bar i { width: 10px; height: 10px; border-radius: 50%; background: #dcdce3; display: inline-block; }
+    .demo-bar span { margin-left: 8px; }
+    mini-configurator { display: block; height: 620px; --mc-radius: 0; --mc-accent: #5b6cff; }
+    @media (max-width: 760px) { mini-configurator { height: 78vh; } }
+    .demo-note { text-align: center; font-size: 14px; color: var(--muted); margin-top: 14px; }
+    .demo-note code { background: var(--soft); padding: 2px 6px; border-radius: 6px; font-size: 13px; }
+
+    section { padding: 72px 0; }
+    section.alt { background: var(--panel); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .section-head { max-width: 680px; margin: 0 auto 40px; text-align: center; }
+    .section-head h2 { font-size: clamp(26px, 3.4vw, 36px); letter-spacing: -.025em; line-height: 1.15; margin-top: 12px; }
+    .section-head p { color: var(--muted); margin-top: 12px; font-size: 17px; }
+
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+    @media (max-width: 860px) { .steps { grid-template-columns: 1fr; } }
+    .step { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; }
+    .step img { width: 100%; aspect-ratio: 16 / 10.25; object-fit: cover; object-position: left top; border-bottom: 1px solid var(--line); background: var(--soft); }
+    .step .body { padding: 18px 20px 22px; }
+    .step .n { font-size: 12px; font-weight: 700; color: var(--accent-deep); letter-spacing: .08em; }
+    .step h3 { font-size: 18px; margin-top: 6px; letter-spacing: -.01em; }
+    .step p { color: var(--muted); font-size: 14.5px; margin-top: 8px; }
+
+    .features { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+    @media (max-width: 960px) { .features { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 520px) { .features { grid-template-columns: 1fr; } }
+    .feature { padding: 20px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); }
+    .feature .ico { width: 36px; height: 36px; border-radius: 10px; background: #eceefe; color: var(--accent-deep); display: flex; align-items: center; justify-content: center; margin-bottom: 12px; }
+    .feature .ico svg { width: 18px; height: 18px; }
+    .feature h3 { font-size: 15.5px; }
+    .feature p { color: var(--muted); font-size: 14px; margin-top: 6px; }
+
+    .code { background: #15151c; color: #ecebf2; border-radius: var(--radius); padding: 20px 22px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13.5px; line-height: 1.6; overflow-x: auto; }
+    .code .t { color: #8ab4ff; } .code .a { color: #ffd479; } .code .s { color: #9be29b; } .code .c { color: #7d7d90; }
+    .split { display: grid; grid-template-columns: 1.05fr 1fr; gap: 40px; align-items: center; }
+    @media (max-width: 860px) { .split { grid-template-columns: 1fr; } }
+    .split h2 { font-size: clamp(24px, 3vw, 32px); letter-spacing: -.02em; line-height: 1.15; }
+    .split p { color: var(--muted); margin-top: 12px; }
+    .split ul { margin: 16px 0 0; padding-left: 20px; color: var(--muted); }
+    .split li { margin: 6px 0; }
+
+    table.compare { width: 100%; border-collapse: collapse; background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; font-size: 15px; }
+    .compare th, .compare td { padding: 12px 16px; border-bottom: 1px solid var(--line); text-align: left; }
+    .compare th { font-size: 12.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); background: var(--soft); }
+    .compare td:not(:first-child) { text-align: center; width: 130px; }
+    .compare tr:last-child td { border-bottom: none; }
+    .yes { color: var(--ok); font-weight: 700; } .no { color: #c9c9d2; }
+
+    .pricing { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; max-width: 800px; margin: 0 auto; }
+    @media (max-width: 720px) { .pricing { grid-template-columns: 1fr; } }
+    .plan { background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 28px; display: flex; flex-direction: column; gap: 16px; }
+    .plan.featured { border-color: var(--accent); box-shadow: 0 20px 60px rgba(91,108,255,.16); }
+    .plan h3 { font-size: 19px; }
+    .plan .price { font-size: 40px; font-weight: 800; letter-spacing: -.03em; }
+    .plan .price small { font-size: 14px; color: var(--muted); font-weight: 500; letter-spacing: 0; margin-left: 6px; }
+    .plan ul { margin: 0; padding: 0; list-style: none; color: var(--muted); font-size: 14.5px; display: flex; flex-direction: column; gap: 8px; }
+    .plan li::before { content: "✓"; color: var(--ok); font-weight: 700; margin-right: 8px; }
+    .plan .btn { margin-top: auto; }
+    .pricing-note { text-align: center; color: var(--muted); font-size: 13.5px; margin-top: 18px; }
+
+    .faq { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
+    details { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 0 18px; }
+    summary { cursor: pointer; font-weight: 600; padding: 15px 0; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+    summary::after { content: "+"; color: var(--muted); font-weight: 400; font-size: 20px; }
+    details[open] summary::after { content: "–"; }
+    details p { color: var(--muted); padding: 0 0 16px; font-size: 15px; }
+
+    footer { padding: 40px 0 60px; color: var(--muted); font-size: 14px; }
+    footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="wrap">
+      <a class="brand" href="#top">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#5b6cff"/><path d="M16 6 26 11.5v9L16 26 6 20.5v-9z" fill="none" stroke="#fff" stroke-width="2.2" stroke-linejoin="round"/><path d="M16 16 26 11.5M16 16 6 11.5M16 16v10" fill="none" stroke="#fff" stroke-width="2.2"/></svg>
+        Mini Configurator <span style="color:var(--accent-deep)">Pro</span>
+      </a>
+      <div class="links">
+        <a href="#demo">Demo</a>
+        <a href="#studio">Studio</a>
+        <a href="#features">Features</a>
+        <a href="#pricing">Pricing</a>
+        <a href="https://github.com/StijnTimmerman/mini-configurator" rel="noopener">Free version</a>
+        <a class="btn primary" href="#pricing" data-buy="solo">Buy Pro</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero" id="top">
+    <div class="wrap">
+      <span class="pill">Self-hosted · one JSON file · one tag</span>
+      <h1>Your product in 3D, <em>configurable</em>, in an afternoon.</h1>
+      <p class="lead">Load your own GLB, click parts and options together in the Studio, embed one tag. Visitors pick colors, textures and finishes, see the price, share a link and request a quote with a screenshot. No SaaS, no license server, nothing phones home.</p>
+      <div class="cta">
+        <a class="btn primary big" href="#pricing" data-buy="solo">Buy Pro — €59</a>
+        <a class="btn big" href="#demo">Play with the demo ↓</a>
+      </div>
+      <p class="fine">Unlimited projects · 12 months of updates · Three.js under the hood · MIT-licensed free version on GitHub</p>
+    </div>
+  </header>
+
+  <div class="wrap" id="demo">
+    <div class="demo-frame">
+      <div class="demo-bar"><i></i><i></i><i></i><span>Live demo — this is the real Pro bundle with the sample product. Try the cushion switch, the finish and "Copy link".</span></div>
+      <mini-configurator src="./sample/product.json" share theme="light">
+        <span slot="footer">Sample product: 15 meshes, 3 parts, generated textures. Quote form posts to a dummy endpoint.</span>
+      </mini-configurator>
+    </div>
+    <p class="demo-note">Everything above is <code>product.json</code> + <code>chair.glb</code> + three PNG textures. The page just contains <code>&lt;mini-configurator src="sample/product.json"&gt;</code>.</p>
+  </div>
+
+  <section id="studio">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="pill">The Studio</span>
+        <h2>No code between your GLB and a working configurator</h2>
+        <p>The Studio runs in your browser, keeps everything local and exports the folder you drop next to your page.</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <img src="img/studio-2-model.png" alt="Studio step 1: a GLB loaded, with the list of meshes and materials" loading="lazy" />
+          <div class="body"><div class="n">STEP 1</div><h3>Drop your GLB</h3><p>Meshes and materials show up with their names. One click creates a part per material, with the material's color as first option.</p></div>
+        </div>
+        <div class="step">
+          <img src="img/studio-3-parts.png" alt="Studio step 2: a part selected, its meshes highlighted in the 3D preview" loading="lazy" />
+          <div class="body"><div class="n">STEP 2</div><h3>Click parts together</h3><p>Select a part, click meshes in the preview to assign them. Optional parts get a switch and a price. Match terms handle re-exports.</p></div>
+        </div>
+        <div class="step">
+          <img src="img/studio-4-options.png" alt="Studio step 3: options with color, texture and price per part" loading="lazy" />
+          <div class="body"><div class="n">STEP 3</div><h3>Options, prices, export</h3><p>Colors, uploaded textures, tiling, prices, finishes, camera. Export a zip with product.json, model, textures and an embed snippet.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="alt" id="features">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="pill">What you get</span>
+        <h2>Everything a product page needs. Nothing it doesn't.</h2>
+      </div>
+      <div class="features">
+        <div class="feature"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 3 8l9 5 9-5-9-5z"/><path d="M3 8v8l9 5 9-5V8"/></svg></div><h3>Your own model</h3><p>glTF/GLB with DRACO or meshopt compression. Parts match on mesh or material names. Auto-fit and centred.</p></div>
+        <div class="feature"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18"/></svg></div><h3>Colors &amp; textures</h3><p>Flat colors, textures, or tinted textures per option. Normal and roughness maps, tiling, rotation.</p></div>
+        <div class="feature"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 12h16M4 6h16M4 18h10"/></svg></div><h3>Finishes &amp; optional parts</h3><p>Matte, satin, gloss or your own presets, per part. On/off switches for cushions, armrests, accessories.</p></div>
+        <div class="feature"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v20M17 6H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><h3>Live price</h3><p>Base price plus option prices, formatted for any locale and currency. Or hide prices entirely.</p></div>
+        <div class="feature"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H5.5L4 17.5V4z"/><path d="M8 9h8M8 12h5"/></svg></div><h3>Quote requests</h3><p>Form with your fields, posted as JSON with the configuration, a share link and a PNG screenshot. PHP and Node endpoints included.</p></div>
+        <div class="feature"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg></div><h3>Share links &amp; images</h3><p>Every configuration is a short URL. Visitors download a PNG of what they built.</p></div>
+        <div class="feature"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a4 4 0 0 0-4 4v1H6a3 3 0 0 0 0 6h2v4a4 4 0 0 0 8 0v-4h2a3 3 0 0 0 0-6h-2V7a4 4 0 0 0-4-4z"/></svg></div><h3>Themeable panel</h3><p>CSS variables for colors, radius, font, width. Light, dark and auto. All texts translatable in JSON.</p></div>
+        <div class="feature"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 8-4 4 4 4M16 8l4 4-4 4M14 4l-4 16"/></svg></div><h3>Any stack</h3><p>Web component for plain HTML, WordPress or Webflow. React and Vue wrappers. Angular, Svelte, Astro via the tag. Core API for your own UI.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap split">
+      <div>
+        <span class="pill">Embed</span>
+        <h2 style="margin-top:12px">Two lines. That's the integration.</h2>
+        <p>Copy <code>mini-configurator.js</code> and the exported product folder next to your page. The element sizes itself to its box, works on touch, and needs no build step. With a bundler, install the packages and keep one copy of Three.js.</p>
+        <ul>
+          <li>Self-contained bundle: about 190 kB gzipped, Three.js included</li>
+          <li>npm packages with types for Vite, Next.js, Nuxt, Astro</li>
+          <li>Events for every change, quote and error; full API on the element</li>
+          <li>No accounts, no external requests, no tracking</li>
+        </ul>
+      </div>
+      <pre class="code"><span class="c">&lt;!-- anywhere in your page --&gt;</span>
+<span class="t">&lt;script</span> <span class="a">type</span>=<span class="s">"module"</span> <span class="a">src</span>=<span class="s">"mini-configurator.js"</span><span class="t">&gt;&lt;/script&gt;</span>
+
+<span class="t">&lt;mini-configurator</span>
+  <span class="a">src</span>=<span class="s">"chair/product.json"</span>
+  <span class="a">share</span> <span class="a">theme</span>=<span class="s">"auto"</span>
+  <span class="a">style</span>=<span class="s">"height: 80vh"</span><span class="t">&gt;
+&lt;/mini-configurator&gt;</span>
+
+<span class="c">// React</span>
+<span class="t">&lt;ProductConfigurator</span> <span class="a">product</span>=<span class="s">"/chair/product.json"</span> <span class="a">share</span>
+  <span class="a">onChange</span>={(state, summary) =&gt; ...} <span class="t">/&gt;</span></pre>
+    </div>
+  </section>
+
+  <section class="alt">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="pill">Free vs Pro</span>
+        <h2>The free version is a great starting point. Pro is the finished product.</h2>
+        <p>The MIT-licensed <a href="https://github.com/StijnTimmerman/mini-configurator">Mini Configurator</a> shows the approach with a chair built from primitives. Pro loads your model and ships the whole workflow.</p>
+      </div>
+      <table class="compare">
+        <thead><tr><th>Capability</th><th>Free (MIT)</th><th>Pro</th></tr></thead>
+        <tbody>
+          <tr><td>Per-part colors, finishes, orbit view</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+          <tr><td>Load your own GLB (DRACO, meshopt), auto part detection</td><td class="no">—</td><td class="yes">✓</td></tr>
+          <tr><td>Textures, tinted textures, normal &amp; roughness maps</td><td class="no">—</td><td class="yes">✓</td></tr>
+          <tr><td>Optional parts, prices, live total</td><td class="no">—</td><td class="yes">✓</td></tr>
+          <tr><td>Quote form with screenshot, share links, PNG download</td><td class="no">—</td><td class="yes">✓</td></tr>
+          <tr><td>Web component, React &amp; Vue wrappers, theming, labels</td><td class="no">—</td><td class="yes">✓</td></tr>
+          <tr><td>The Studio (no-code editor)</td><td class="no">—</td><td class="yes">✓</td></tr>
+          <tr><td>Docs, examples, quote endpoints, 12 months of updates</td><td class="no">—</td><td class="yes">✓</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="pricing">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="pill">Pricing</span>
+        <h2>One payment. Unlimited projects.</h2>
+        <p>Source code included. No license key, no monthly fee, no per-site limits.</p>
+      </div>
+      <div class="pricing">
+        <div class="plan featured">
+          <div><span class="pill">Solo</span></div>
+          <h3>One developer</h3>
+          <div class="price">€59<small>one-time, excl. VAT</small></div>
+          <ul>
+            <li>Unlimited client and personal projects</li>
+            <li>Full source: core, web component, React &amp; Vue</li>
+            <li>The Studio, docs, examples, endpoints</li>
+            <li>12 months of updates</li>
+            <li>Email support</li>
+          </ul>
+          <a class="btn primary big" href="#" data-buy="solo">Buy Solo — €59</a>
+        </div>
+        <div class="plan">
+          <div><span class="pill">Team</span></div>
+          <h3>Up to five developers</h3>
+          <div class="price">€149<small>one-time, excl. VAT</small></div>
+          <ul>
+            <li>Everything in Solo</li>
+            <li>For agencies and product teams</li>
+            <li>One license for the whole team</li>
+            <li>12 months of updates</li>
+            <li>Priority email support</li>
+          </ul>
+          <a class="btn big" href="#" data-buy="team">Buy Team — €149</a>
+        </div>
+      </div>
+      <p class="pricing-note">VAT is added at checkout where applicable. Secure checkout, instant download. Read the <a href="eula.html">license</a>. Need more seats or OEM terms? Ask.</p>
+    </div>
+  </section>
+
+  <section class="alt">
+    <div class="wrap">
+      <div class="section-head"><span class="pill">FAQ</span><h2>Questions, answered</h2></div>
+      <div class="faq">
+        <details><summary>Which model formats work?</summary><p>glTF 2.0 and GLB, with or without DRACO or meshopt compression. Export from Blender, Cinema 4D, SketchUp, Fusion or any CAD tool. FBX, OBJ and STL convert to GLB in Blender in a minute.</p></details>
+        <details><summary>Does it work with WordPress, Webflow, Shopify?</summary><p>Anywhere you can add an HTML block and upload files. Upload the bundle and the product folder, paste the two lines. No plugin required.</p></details>
+        <details><summary>Where do quote requests go?</summary><p>To any URL you set: the included PHP script (mails you the request with the screenshot attached), the Node endpoint, a form service such as Formspree, or your own backend. The payload is plain JSON.</p></details>
+        <details><summary>Is there a license check or telemetry?</summary><p>No. The configurator makes no external requests. The license is a legal agreement: use it in unlimited projects, don't resell it as a configurator product.</p></details>
+        <details><summary>Can I build my own UI?</summary><p>Yes. The core package is the engine without a panel: load, configure, price, screenshot, quote. The web component is one UI on top of it.</p></details>
+        <details><summary>What about AR, animations, USDZ?</summary><p>Not in 1.0. The roadmap follows what buyers ask for; updates within 12 months are included.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <div>Mini Configurator Pro · made by <a href="https://stimmerman.nl">Stijn Timmerman</a> · Built on <a href="https://threejs.org">Three.js</a></div>
+      <div><a href="https://github.com/StijnTimmerman/mini-configurator">Free version on GitHub</a> · <a href="eula.html">License</a></div>
+    </div>
+  </footer>
+
+  <script type="module" src="./mini-configurator.js"></script>
+  <script>
+    // Checkout links. Leave empty until the store is live: buttons then open the early-access form.
+    const CHECKOUT = { solo: "", team: "" };
+    const EARLY = "https://github.com/StijnTimmerman/mini-configurator/issues/new?title=Mini%20Configurator%20Pro%20early%20access&body=Hi%2C%20I%27d%20like%20early%20access%20to%20Mini%20Configurator%20Pro.%0APlan%3A%20Solo%20%2F%20Team%0AUse%20case%3A%20";
+    document.querySelectorAll("[data-buy]").forEach((a) => {
+      const url = CHECKOUT[a.dataset.buy];
+      if (url) {
+        a.href = url;
+        a.target = "_blank";
+        a.rel = "noopener";
+      } else if (a.getAttribute("href") === "#") {
+        a.href = EARLY;
+        a.target = "_blank";
+        a.rel = "noopener";
+        a.textContent = a.dataset.buy === "team" ? "Get early access (Team)" : "Get early access (Solo)";
+      }
+    });
+  </script>
+</body>
+</html>

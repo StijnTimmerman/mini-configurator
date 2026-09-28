@@ -66,7 +66,7 @@ import {
         <button class="reset" (click)="reset()">Reset</button>
         <p class="credit">
           Open-source mini configurator ·
-          <a href="https://steildigital.nl" target="_blank" rel="noopener">Steil Digital</a>
+          <a href="https://stimmerman.nl" target="_blank" rel="noopener">Stijn Timmerman</a> · <a href="https://stijntimmerman.github.io/mini-configurator/pro/" target="_blank" rel="noopener">Pro version</a>
         </p>
       </aside>
     </div>
