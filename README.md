@@ -12,11 +12,11 @@ the same core.
 
 ![Mini 3D product configurator](docs/screenshot.png)
 
-> **Need your own model, textures, prices and quote requests?**
-> [Mini Configurator **Pro**](https://stijntimmerman.github.io/mini-configurator/pro/) loads any GLB,
-> adds textures, optional parts, live pricing, share links, a quote form with screenshot, React/Vue
-> wrappers, and a no-code **Studio** that exports `product.json`. One payment, unlimited projects.
-> [Try the live demo →](https://stijntimmerman.github.io/mini-configurator/pro/#demo)
+> This repository is a small, MIT-licensed code sample that shows the approach: a framework-agnostic
+> Three.js core with a chair built from primitives, and the same panel in vanilla, React, Vue and Angular.
+> The finished product, **Mini Configurator Pro** by Steil Digital, loads any GLB, adds textures, optional
+> parts, live pricing, share links, a quote form with screenshot, React/Vue wrappers and a no-code Studio.
+> [Live demo and licenses at store.steildigital.nl →](https://store.steildigital.nl)
 
 ## Repository layout
 
@@ -82,4 +82,4 @@ to static files too.
 
 ---
 
-Built by [Stijn Timmerman](https://stimmerman.nl). Want more? See [Mini Configurator Pro](https://stijntimmerman.github.io/mini-configurator/pro/).
+Built by [Steil Digital](https://steildigital.nl). The finished product is [Mini Configurator Pro](https://store.steildigital.nl).

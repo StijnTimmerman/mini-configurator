@@ -70,7 +70,7 @@ onBeforeUnmount(() => cfg && cfg.dispose());
 
       <button class="reset" @click="cfg.reset()">Reset</button>
       <p class="credit">
-        Open-source mini configurator by <a href="https://stimmerman.nl" target="_blank" rel="noopener">Stijn Timmerman</a> · <a href="https://stijntimmerman.github.io/mini-configurator/pro/" target="_blank" rel="noopener">Pro version</a>
+        Open-source code sample by <a href="https://steildigital.nl" target="_blank" rel="noopener">Steil Digital</a> · <a href="https://store.steildigital.nl" target="_blank" rel="noopener">Mini Configurator Pro</a>
       </p>
     </aside>
   </div>
