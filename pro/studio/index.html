@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mini Configurator Studio</title>
+  <meta name="description" content="No-code editor for Mini Configurator Pro: load a GLB, define parts and options, export product.json." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%235b6cff'/%3E%3Cpath d='M16 6 26 11.5v9L16 26 6 20.5v-9z' fill='none' stroke='%23fff' stroke-width='2.2' stroke-linejoin='round'/%3E%3Cpath d='M16 16 26 11.5M16 16 6 11.5M16 16v10' fill='none' stroke='%23fff' stroke-width='2.2'/%3E%3C/svg%3E" />
+  <script type="module" crossorigin src="./assets/index-CO3z9cKq.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-BDHYUWpo.css">
+</head>
+<body>
+  <div class="st-app">
+    <header class="st-header">
+      <div class="st-brand"><span class="st-logo"></span>Mini Configurator <b>Studio</b></div>
+      <div class="st-header-actions">
+        <button type="button" class="st-btn st-ghost" id="st-new">New draft</button>
+        <button type="button" class="st-btn st-primary" id="st-go-export">Export</button>
+      </div>
+    </header>
+    <nav class="st-steps" id="st-steps" aria-label="Steps"></nav>
+    <main class="st-panel" id="st-panel"></main>
+    <section class="st-preview" id="st-preview">
+      <canvas id="st-canvas" aria-label="Live preview"></canvas>
+      <div class="st-preview-empty" id="st-preview-empty">
+        <div class="st-preview-empty-inner">
+          <div class="st-cube"></div>
+          <p>Load a GLB in step 1 to see the live preview.</p>
+        </div>
+      </div>
+      <div class="st-preview-tools" id="st-preview-tools"></div>
+    </section>
+    <footer class="st-status" id="st-status" role="status" aria-live="polite"></footer>
+    <div class="st-dialog" id="st-dialog" hidden>
+      <div class="st-dialog-card" role="dialog" aria-modal="true" aria-labelledby="st-dialog-title">
+        <h3 id="st-dialog-title"></h3>
+        <p id="st-dialog-text"></p>
+        <div class="st-dialog-actions">
+          <button type="button" class="st-btn st-ghost" id="st-dialog-cancel">Cancel</button>
+          <button type="button" class="st-btn st-danger" id="st-dialog-ok">Confirm</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
